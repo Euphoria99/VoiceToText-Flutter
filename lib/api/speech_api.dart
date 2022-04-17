@@ -16,7 +16,14 @@ class _SpeechScreenState extends State<SpeechScreen> {
     if (!_isListening) {
       stt.SpeechToText speech = stt.SpeechToText();
       bool available = await speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
+        onStatus: (val) {
+          print('onStatus: $val');
+          if (val == 'done') {
+            setState(() {
+              _isListening = false;
+            });
+          }
+        },
         onError: (val) => print('onError: $val'),
       );
       if (available) {
